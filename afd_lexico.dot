@@ -1,0 +1,93 @@
+digraph LexerAFD {
+    rankdir=LR;
+    node [shape = circle];
+    q0 [label="START"];
+
+    // Estados Finais (duplo círculo)
+    node [shape = doublecircle];
+    q1_acc [label="ACC_ID"];
+    q2_acc [label="ACC_INT"];
+    q4_acc [label="ACC_FLOAT"];
+    q9 [label="ACC_OP (==)"];
+    q11 [label="ACC_OP (<=)"];
+    q13 [label="ACC_OP (>=)"];
+    q15 [label="ACC_OP (!=)"];
+    q16 [label="ACC_OP (+,-,*,/,=,<,>)"];
+    q17 [label="ACC_SEP"];
+    q_err [label="ERROR"];
+
+    // Estados Intermediários
+    node [shape = circle];
+    q1 [label="ID"];
+    q2 [label="INT"];
+    q3 [label="INT."];
+    q4 [label="FLOAT"];
+    q5 [label="OP /"];
+    q6 [label="LINE_COMM"];
+    q7 [label="BLOCK_COMM"];
+    q7a [label="BLOCK_COMM *"];
+    q8 [label="OP ="];
+    q10 [label="OP <"];
+    q12 [label="OP >"];
+    q14 [label="OP !"];
+    q18 [label="WS"];
+
+    // Transições
+    q0 -> q1 [label="letra, _"];
+    q0 -> q2 [label="dígito"];
+    q0 -> q5 [label="/"];
+    q0 -> q8 [label="="];
+    q0 -> q10 [label="<"];
+    q0 -> q12 [label=">"];
+    q0 -> q14 [label="!"];
+    q0 -> q16 [label="+,-,*"];
+    q0 -> q17 [label="(,),{,},;, ,"];
+    q0 -> q18 [label="WS"];
+    q0 -> q_err [label="."];
+    q0 -> q_err [label="Outro"]; // Captura geral para erros não listados
+
+    q1 -> q1 [label="letra, dígito, _"];
+    q1 -> q1_acc [label="Outro (Aceita ID)"]; // Transição implícita de aceitação
+
+    q2 -> q2 [label="dígito"];
+    q2 -> q3 [label="."];
+    q2 -> q2_acc [label="Outro (Aceita INT)"];
+
+    q3 -> q4 [label="dígito"];
+    q3 -> q_err [label="Outro"]; // Erro: 123. seguido por não-dígito
+
+    q4 -> q4 [label="dígito"];
+    q4 -> q4_acc [label="Outro (Aceita FLOAT)"];
+
+    q5 -> q6 [label="/"];
+    q5 -> q7 [label="*"];
+    q5 -> q16 [label="Outro (Aceita /)"];
+
+    q6 -> q6 [label="Não-\\n"];
+    q6 -> q0 [label="\\n"];
+
+    q7 -> q7a [label="*"];
+    q7 -> q7 [label="Não-*"];
+    q7a -> q0 [label="/"];
+    q7a -> q7a [label="*"];
+    q7a -> q7 [label="Não-/,*"];
+
+    q8 -> q9 [label="="];
+    q8 -> q16 [label="Outro (Aceita =)"];
+
+    q10 -> q11 [label="="];
+    q10 -> q16 [label="Outro (Aceita <)"];
+
+    q12 -> q13 [label="="];
+    q12 -> q16 [label="Outro (Aceita >)"];
+
+    q14 -> q15 [label="="];
+    q14 -> q_err [label="Outro (! sozinho é erro)"];
+
+    q18 -> q18 [label="WS"];
+    q18 -> q0 [label="Outro (Ignora WS)"];
+
+    // Nota: As transições de aceitação (ex: q1 -> q1_acc) implicam que o token é retornado
+    // e a análise recomeça em q0 com o caractere 'Outro'.
+    // Estados finais como q9, q11, etc., também implicam reinício em q0 após aceitação.
+}
