@@ -1,0 +1,43 @@
+| Estado Atual | Entrada           | Próximo Estado |
+| ------------ | ----------------- | -------------- |
+| q0           | letra, \_         | q1             |
+| q0           | dígito            | q2             |
+| q0           | /                 | q5             |
+| q0           | =                 | q8             |
+| q0           | <                 | q10            |
+| q0           | >                 | q12            |
+| q0           | !                 | q14            |
+| q0           | +, -, \*          | q16            |
+| q0           | (, ), {, }, ;, ,  | q17            |
+| q0           | WS                | q18            |
+| q0           | .                 | q\_err         |
+| q0           | Outro             | q\_err         |
+| q1           | letra, dígito, \_ | q1             |
+| q1           | Outro             | q1\_acc        |
+| q2           | dígito            | q2             |
+| q2           | .                 | q3             |
+| q2           | Outro             | q2\_acc        |
+| q3           | dígito            | q4             |
+| q3           | Outro             | q\_err         |
+| q4           | dígito            | q4             |
+| q4           | Outro             | q4\_acc        |
+| q5           | /                 | q6             |
+| q5           | \*                | q7             |
+| q5           | Outro             | q16            |
+| q6           | Não-\n            | q6             |
+| q6           | \n                | q0             |
+| q7           | \*                | q7a            |
+| q7           | Não-\*            | q7             |
+| q7a          | /                 | q0             |
+| q7a          | \*                | q7a            |
+| q7a          | Não-/,\*          | q7             |
+| q8           | =                 | q9             |
+| q8           | Outro             | q16            |
+| q10          | =                 | q11            |
+| q10          | Outro             | q16            |
+| q12          | =                 | q13            |
+| q12          | Outro             | q16            |
+| q14          | =                 | q15            |
+| q14          | Outro             | q\_err         |
+| q18          | WS                | q18            |
+| q18          | Outro             | q0             |
