@@ -1,0 +1,161 @@
+digraph LexicalAnalyzerAFD {
+    rankdir=LR;
+    node [shape = circle];
+    start [shape = point];
+    S0 [label="S0"];
+    start -> S0;
+
+    // Estado de aceitação para IDENTIFIER
+    S_IDENTIFIER [label="S_IDENTIFIER", shape=doublecircle];
+
+    // --- WHITESPACE ---
+    S0 -> S_ws [label="[\\s]"];
+    S_ws [label="ACCEPT_WHITESPACE", shape=doublecircle];
+    S_ws -> S_ws [label="[\\s]"];
+
+    // --- INTEGER_LITERAL & FLOAT_LITERAL ---
+    S0 -> S_int1 [label="[0-9]"];
+    S_int1 [label="ACCEPT_INTEGER", shape=doublecircle];
+    S_int1 -> S_int1 [label="[0-9]"];
+    S_int1 -> S_float1 [label="."];
+    S_float1 [label="S_float1"];
+    S_float1 -> S_float2 [label="[0-9]"];
+    S_float2 [label="ACCEPT_FLOAT_LITERAL", shape=doublecircle];
+    S_float2 -> S_float2 [label="[0-9]"];
+
+    // --- IDENTIFIERS and KEYWORDS ---
+    // Letras que iniciam identificadores mas não palavras-chave específicas
+    // (a,b,c,d,g,h,j,k,m,o,p,q,s,t,u,x,y,z,_, todas maiúsculas)
+    S0 -> S_IDENTIFIER [label="[a-dg-hj-oq-tv-z,A-Z,_]"];
+
+    // IF
+    S0 -> S_i1 [label="i"];
+    S_i1 -> S_if2 [label="f"];
+    S_if2 [label="ACCEPT_IF", shape=doublecircle];
+    S_if2 -> S_IDENTIFIER [label="[a-zA-Z0-9_]"]; // ex: ifx -> IDENTIFIER
+    // Transição de 'i' para IDENTIFIER se não for 'if' ou 'int'
+    S_i1 -> S_IDENTIFIER [label="[a-e,g-m,o-z,A-Z,0-9_]"]; // ex: ix, i_ (mas não 'in')
+
+    // INT (keyword)
+    S_i1 -> S_int1_kw [label="n"]; // Continua de S0->i->S_i1
+    S_int1_kw -> S_int2_kw [label="t"];
+    S_int2_kw [label="ACCEPT_INT_KW", shape=doublecircle];
+    S_int2_kw -> S_IDENTIFIER [label="[a-zA-Z0-9_]"]; // ex: intx -> IDENTIFIER
+    S_int1_kw -> S_IDENTIFIER [label="[a-s,u-z,A-Z,0-9_]"]; // ex: inx -> IDENTIFIER
+
+    // ELSE
+    S0 -> S_e1 [label="e"];
+    S_e1 -> S_el2 [label="l"];
+    S_el2 -> S_els3 [label="s"];
+    S_els3 -> S_else4 [label="e"];
+    S_else4 [label="ACCEPT_ELSE", shape=doublecircle];
+    S_else4 -> S_IDENTIFIER [label="[a-zA-Z0-9_]"];
+    S_els3 -> S_IDENTIFIER [label="[a-d,f-z,A-Z,0-9_]"];
+    S_el2 -> S_IDENTIFIER [label="[a-r,t-z,A-Z,0-9_]"];
+    S_e1 -> S_IDENTIFIER [label="[a-k,m-z,A-Z,0-9_]"];
+
+    // WHILE
+    S0 -> S_w1 [label="w"];
+    S_w1 -> S_wh2 [label="h"];
+    S_wh2 -> S_whi3 [label="i"];
+    S_whi3 -> S_whil4 [label="l"];
+    S_whil4 -> S_while5 [label="e"];
+    S_while5 [label="ACCEPT_WHILE", shape=doublecircle];
+    S_while5 -> S_IDENTIFIER [label="[a-zA-Z0-9_]"];
+    S_whil4 -> S_IDENTIFIER [label="[a-d,f-z,A-Z,0-9_]"];
+    S_whi3 -> S_IDENTIFIER [label="[a-k,m-z,A-Z,0-9_]"];
+    S_wh2 -> S_IDENTIFIER [label="[a-h,j-z,A-Z,0-9_]"];
+    S_w1 -> S_IDENTIFIER [label="[a-g,i-z,A-Z,0-9_]"];
+
+    // FLOAT (keyword)
+    S0 -> S_f1_kw [label="f"];
+    S_f1_kw -> S_fl2_kw [label="l"];
+    S_fl2_kw -> S_flo3_kw [label="o"];
+    S_flo3_kw -> S_floa4_kw [label="a"];
+    S_floa4_kw -> S_float5_kw [label="t"];
+    S_float5_kw [label="ACCEPT_FLOAT_KW", shape=doublecircle];
+    S_float5_kw -> S_IDENTIFIER [label="[a-zA-Z0-9_]"];
+    S_floa4_kw -> S_IDENTIFIER [label="[a-s,u-z,A-Z,0-9_]"];
+    S_flo3_kw -> S_IDENTIFIER [label="[b-z,A-Z,0-9_]"];
+    S_fl2_kw -> S_IDENTIFIER [label="[a-n,p-z,A-Z,0-9_]"];
+    S_f1_kw -> S_IDENTIFIER [label="[a-k,m-z,A-Z,0-9_]"];
+
+    // VOID
+    S0 -> S_v1 [label="v"];
+    S_v1 -> S_vo2 [label="o"];
+    S_vo2 -> S_voi3 [label="i"];
+    S_voi3 -> S_void4 [label="d"];
+    S_void4 [label="ACCEPT_VOID", shape=doublecircle];
+    S_void4 -> S_IDENTIFIER [label="[a-zA-Z0-9_]"];
+    S_voi3 -> S_IDENTIFIER [label="[a-c,e-z,A-Z,0-9_]"];
+    S_vo2 -> S_IDENTIFIER [label="[a-h,j-z,A-Z,0-9_]"];
+    S_v1 -> S_IDENTIFIER [label="[a-n,p-z,A-Z,0-9_]"];
+
+    // RETURN
+    S0 -> S_r1 [label="r"];
+    S_r1 -> S_re2 [label="e"];
+    S_re2 -> S_ret3 [label="t"];
+    S_ret3 -> S_retu4 [label="u"];
+    S_retu4 -> S_retur5 [label="r"];
+    S_retur5 -> S_return6 [label="n"];
+    S_return6 [label="ACCEPT_RETURN", shape=doublecircle];
+    S_return6 -> S_IDENTIFIER [label="[a-zA-Z0-9_]"];
+    S_retur5 -> S_IDENTIFIER [label="[a-m,o-z,A-Z,0-9_]"];
+    S_retu4 -> S_IDENTIFIER [label="[a-q,s-z,A-Z,0-9_]"];
+    S_ret3 -> S_IDENTIFIER [label="[a-t,v-z,A-Z,0-9_]"];
+    S_re2 -> S_IDENTIFIER [label="[a-s,u-z,A-Z,0-9_]"];
+    S_r1 -> S_IDENTIFIER [label="[a-d,f-z,A-Z,0-9_]"];
+
+    // Loop no estado IDENTIFIER para caracteres subsequentes
+    S_IDENTIFIER -> S_IDENTIFIER [label="[a-zA-Z0-9_]"];
+
+    // --- OPERATORS and PUNCTUATION ---
+    S0 -> S_assign [label="="]; S_assign [label="ACCEPT_ASSIGN", shape=doublecircle];
+    S_assign -> S_equals [label="="]; S_equals [label="ACCEPT_EQUALS", shape=doublecircle];
+
+    S0 -> S_not1 [label="!"];
+    S_not1 -> S_notequals [label="="]; S_notequals [label="ACCEPT_NOT_EQUALS", shape=doublecircle];
+
+    S0 -> S_lt [label="<"]; S_lt [label="ACCEPT_LESS_THAN", shape=doublecircle];
+    S_lt -> S_lte [label="="]; S_lte [label="ACCEPT_LESS_THAN_EQ", shape=doublecircle];
+
+    S0 -> S_gt [label=">"]; S_gt [label="ACCEPT_GREATER_THAN", shape=doublecircle];
+    S_gt -> S_gte [label="="]; S_gte [label="ACCEPT_GREATER_THAN_EQ", shape=doublecircle];
+
+    S0 -> S_plus [label="+"]; S_plus [label="ACCEPT_PLUS", shape=doublecircle];
+    S0 -> S_minus [label="-"]; S_minus [label="ACCEPT_MINUS", shape=doublecircle];
+    S0 -> S_mul [label="*"]; S_mul [label="ACCEPT_MULTIPLY", shape=doublecircle];
+
+    // DIVIDE and COMMENTS
+    S0 -> S_div_or_com1 [label="/"];
+    S_div_or_com1 [label="ACCEPT_DIVIDE", shape=doublecircle]; // Aceita DIVIDE se não formar comentário
+
+    S_div_or_com1 -> S_line_com1 [label="/"]; // Para //
+    S_line_com1 [label="S_line_com1"];
+    S_line_com1 -> S_line_com1 [label="[^\\n]"]; // Qualquer char exceto newline
+    S_line_com1 -> S_line_com_end [label="\\n"];   // Fim do comentário de linha
+    S_line_com_end [label="ACCEPT_LINE_COMMENT", shape=doublecircle];
+
+    S_div_or_com1 -> S_block_com_start [label="*"]; // Para /*
+    S_block_com_start [label="S_block_com_start"];
+    S_block_com_start -> S_block_com_content [label="[^*]"];
+    S_block_com_start -> S_block_com_maybe_end [label="*"]; // Caso de /**
+
+    S_block_com_content [label="S_block_com_content"];
+    S_block_com_content -> S_block_com_content [label="[^*]"];
+    S_block_com_content -> S_block_com_maybe_end [label="*"];
+
+    S_block_com_maybe_end [label="S_block_com_maybe_end"];
+    S_block_com_maybe_end -> S_block_com_content [label="[^/]"]; // Se viu '*' mas não '/' depois
+    S_block_com_maybe_end -> S_block_com_maybe_end [label="*"];   // Para múltiplos '*', ex: /***
+    S_block_com_maybe_end -> S_block_com_end [label="/"];       // Fim '*/'
+    S_block_com_end [label="ACCEPT_BLOCK_COMMENT", shape=doublecircle];
+
+    // Outros símbolos de pontuação
+    S0 -> S_lparen [label="("]; S_lparen [label="ACCEPT_LPAREN", shape=doublecircle];
+    S0 -> S_rparen [label=")"]; S_rparen [label="ACCEPT_RPAREN", shape=doublecircle];
+    S0 -> S_lbrace [label="{"]; S_lbrace [label="ACCEPT_LBRACE", shape=doublecircle];
+    S0 -> S_rbrace [label="}"]; S_rbrace [label="ACCEPT_RBRACE", shape=doublecircle];
+    S0 -> S_semicolon [label=";"]; S_semicolon [label="ACCEPT_SEMICOLON", shape=doublecircle];
+    S0 -> S_comma [label=","]; S_comma [label="ACCEPT_COMMA", shape=doublecircle];
+}
