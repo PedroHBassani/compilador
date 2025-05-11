@@ -189,29 +189,80 @@ code_input.grid(row=0, column=1, sticky='nsew')
 # Código padrão
 default_code = """/*
   Exemplo de Código para Análise Léxica
-  com alguns erros léxicos intencionais: @ # ?
+  Este código demonstra o uso de todos os tokens definidos.
 */
-int main() {
-    // Declaração de variáveis
-    int counter = 0;
-    float pi_approx = 3.14;
-    int limit = 10;
-    int invalid@var = 1;
 
-    // Loop while
-    while (counter < limit) #
-        if (counter == 5) {
-            pi_approx = pi_approx + 0.0015;
-        } else {
-            counter = counter + 1? ;
+// Comentário de linha
+
+/*
+  Comentário
+  de
+  bloco
+*/
+
+int main() {
+    // Declarações e inicializações
+    int numeroInteiro = 123;
+    float numeroFlutuante = 45.67;
+    void funcaoSemRetorno; // Embora 'void' seja mais para funções
+
+    // Estruturas de controle
+    if (numeroInteiro > 100) {
+        numeroInteiro = numeroInteiro - 10;
+    } else {
+        numeroInteiro = numeroInteiro + 10;
+    }
+
+    while (numeroInteiro < 150 && numeroFlutuante >= 40.0) {
+        numeroInteiro = numeroInteiro + 1;
+        if (numeroInteiro == 130 || numeroFlutuante < 42.0) {
+            numeroFlutuante = numeroFlutuante + 0.5;
         }
     }
 
-    // Chamada de função (hipotética)
-    // printValue(pi_approx);
+    // Operadores
+    int a = 5;
+    int b = 10;
+    int soma = a + b;
+    int subtracao = b - a;
+    int multiplicacao = a * b;
+    int divisao = b / a; // Divisão inteira
+    float divisaoFlutuante = 10.0 / 4.0;
 
+    // Operadores de comparação e lógicos
+    if (a < b && b > 0) {
+        // Verdadeiro
+    }
+    if (a <= 5 || b >= 10) {
+        // Verdadeiro
+    }
+    if (a == b) {
+        // Falso
+    }
+    if (a != b) {
+        // Verdadeiro
+    }
+    if (!(a > b)) { // NOT
+        // Verdadeiro
+    }
+
+    // Atribuição
+    a = 20;
+
+    // Chamada de função e retorno
+    // outraFuncao(numeroInteiro, numeroFlutuante);
     return 0;
-    $
+
+    // Erros léxicos intencionais para teste
+    int @variavelInvalida = 1;
+    float $outroErro = 2.0;
+    # Comentário inválido
+}
+
+// Outra função de exemplo
+void outraFuncao(int param1, float param2) {
+    int resultado = param1 * 2;
+    // return; // Retorno opcional para void
 }
 """
 code_input.insert('1.0', default_code)
