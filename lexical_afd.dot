@@ -113,7 +113,7 @@ digraph LexicalAnalyzerAFD {
     S0 -> S_assign [label="="]; S_assign [label="ACCEPT_ASSIGN", shape=doublecircle];
     S_assign -> S_equals [label="="]; S_equals [label="ACCEPT_EQUALS", shape=doublecircle];
 
-    S0 -> S_not1 [label="!"];
+    S0 -> S_not1 [label="!"]; S_not1 [label="ACCEPT_NOT", shape=doublecircle]; // Modificado para aceitar NOT
     S_not1 -> S_notequals [label="="]; S_notequals [label="ACCEPT_NOT_EQUALS", shape=doublecircle];
 
     S0 -> S_lt [label="<"]; S_lt [label="ACCEPT_LESS_THAN", shape=doublecircle];
@@ -121,6 +121,14 @@ digraph LexicalAnalyzerAFD {
 
     S0 -> S_gt [label=">"]; S_gt [label="ACCEPT_GREATER_THAN", shape=doublecircle];
     S_gt -> S_gte [label="="]; S_gte [label="ACCEPT_GREATER_THAN_EQ", shape=doublecircle];
+
+    // AND
+    S0 -> S_and1 [label="&"];
+    S_and1 -> S_and2 [label="&"]; S_and2 [label="ACCEPT_AND", shape=doublecircle];
+
+    // OR
+    S0 -> S_or1 [label="|"];
+    S_or1 -> S_or2 [label="|"]; S_or2 [label="ACCEPT_OR", shape=doublecircle];
 
     S0 -> S_plus [label="+"]; S_plus [label="ACCEPT_PLUS", shape=doublecircle];
     S0 -> S_minus [label="-"]; S_minus [label="ACCEPT_MINUS", shape=doublecircle];
