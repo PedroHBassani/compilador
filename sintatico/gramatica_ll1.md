@@ -10,10 +10,9 @@ COMMENT, WHITESPACE, FLOAT_LITERAL, INTEGER_LITERAL, IF, ELSE, WHILE, INT, FLOAT
 Program → DeclList
 
 ## Declarações e definições
-DeclList → Decl DeclList | ε  
+DeclList → Decl DeclList 
 Decl → Type IDENTIFIER DeclRest  
-DeclRest → LPAREN ParamList RPAREN Block  
-           | SEMICOLON VarDeclRest  
+DeclRest → LPAREN ParamList RPAREN Block | VarDeclRest  
 VarDeclRest → ASSIGN Expr SEMICOLON | SEMICOLON  
 
 ParamList → Param ParamListRest | ε  
