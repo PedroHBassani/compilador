@@ -10,10 +10,9 @@ COMMENT, WHITESPACE, FLOAT_LITERAL, INTEGER_LITERAL, IF, ELSE, WHILE, INT, FLOAT
 Program → DeclList
 
 ## Declarações e definições
-DeclList → Decl DeclList | ε  
+DeclList → Decl DeclList 
 Decl → Type IDENTIFIER DeclRest  
-DeclRest → LPAREN ParamList RPAREN Block | VarDeclRest  
-VarDeclRest → ASSIGN Expr SEMICOLON | SEMICOLON  
+DeclRest → LPAREN ParamList RPAREN Block | ASSIGN Expr SEMICOLON | SEMICOLON  
 
 ParamList → Param ParamListRest | ε  
 ParamListRest → COMMA Param ParamListRest | ε  
@@ -79,7 +78,6 @@ ArgListRest → COMMA Expr ArgListRest | ε
 | DeclList          | { INT, FLOAT, VOID, ε }                                                                                    |
 | Decl              | { INT, FLOAT, VOID }                                                                                       |
 | DeclRest          | { LPAREN, ASSIGN, SEMICOLON }                                                                              |
-| VarDeclRest       | { ASSIGN, SEMICOLON }                                                                                      |
 | ParamList         | { INT, FLOAT, VOID, ε }                                                                                    |
 | ParamListRest     | { COMMA, ε }                                                                                               |
 | Param             | { INT, FLOAT, VOID }                                                                                       |
@@ -139,5 +137,7 @@ int main() {
         numeroFlutuante = numeroFlutuante - 0.5;
     }
     return 0;
+}
+```
 }
 ```
