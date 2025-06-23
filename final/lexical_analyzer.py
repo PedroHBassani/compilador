@@ -124,9 +124,12 @@ def on_content_changed(event=None):
 def run_analysis():
     source_code = code_input.get("1.0", tk.END)
 
+    # Habilita as caixas para limpeza
     tokens_output.config(state=tk.NORMAL)
     symbol_table_output.config(state=tk.NORMAL)
     errors_output.config(state=tk.NORMAL)
+
+    # Limpa as saídas anteriores
     tokens_output.delete("1.0", tk.END)
     symbol_table_output.delete("1.0", tk.END)
     errors_output.delete("1.0", tk.END)
@@ -143,22 +146,19 @@ def run_analysis():
     symbol_table_output.insert(tk.END, "--- Tabela de Símbolos (Identificadores) ---\n")
     if symbols:
         for name, info in symbols.items():
-             symbol_table_output.insert(tk.END, f"Nome: {name:<15} Info: {info}\n")
+            symbol_table_output.insert(tk.END, f"Nome: {name:<15} Info: {info}\n")
     else:
         symbol_table_output.insert(tk.END, "Nenhum identificador encontrado.\n")
 
     errors_output.insert(tk.END, "--- Relatório de Erros ---\n")
     if errors_list:
+        errors_output.insert(tk.END, "--- Erros Léxicos ---\n")
         for error in errors_list:
             errors_output.insert(tk.END, f"{error}\n")
     else:
         errors_output.insert(tk.END, "Nenhum erro léxico encontrado.\n")
 
-    tokens_output.config(state=tk.DISABLED)
-    symbol_table_output.config(state=tk.DISABLED)
-    errors_output.config(state=tk.DISABLED)
-
-    # Limpa erros anteriores
+    # Limpa erros anteriores antes de parsear
     syntax_errors.clear()
 
     # Criador de tokens para o parser
@@ -183,14 +183,13 @@ def run_analysis():
     token_stream = TokenWrapper(tokens)
 
     try:
-        # parser.parse(lexer=token_stream)
         resultado = parser.parse(lexer=token_stream)
         print("Análise sintática concluída com sucesso.")
     except Exception as e:
         syntax_errors.append(str(e))
         print(f"Erro na análise sintática: {e}")
 
-    # Mostra os erros sintáticos na aba de erros
+    # Insere os erros sintáticos na aba de erros
     errors_output.insert(tk.END, "\n--- Erros Sintáticos ---\n")
     if syntax_errors:
         for err in syntax_errors:
@@ -198,6 +197,10 @@ def run_analysis():
     else:
         errors_output.insert(tk.END, "Nenhum erro sintático encontrado.\n")
 
+    # Finalmente, desabilita as caixas de texto para proteger a saída
+    tokens_output.config(state=tk.DISABLED)
+    symbol_table_output.config(state=tk.DISABLED)
+    errors_output.config(state=tk.DISABLED)
 
 # Configuração da janela principal
 root = tk.Tk()

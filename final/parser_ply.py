@@ -112,8 +112,8 @@ def p_error(p):
         msg = f"Erro sintático na linha {p.lineno}: Token inesperado '{p.value}'"
     else:
         msg = "Erro sintático: Fim de arquivo inesperado"
-    syntax_errors.append(msg)
-    raise SyntaxError(msg)  # <-- lança exceção para interromper parsing
+    if msg not in syntax_errors:
+        syntax_errors.append(msg)
 
 # Constroi o parser
 parser = yacc.yacc(debug=True)
