@@ -90,7 +90,7 @@ def analyze_lexical(code):
     return tokens_found, symbol_table, errors
 
 # =============================================================================
-# 2. ANALISADOR SINTÁTICO
+# 2. ANALISADOR SINTÁTICO (VERSÃO FINAL CORRIGIDA - SEM LOOP INFINITO)
 # =============================================================================
 
 class AnalisadorSintatico:
@@ -101,63 +101,70 @@ class AnalisadorSintatico:
         else:
             self.nao_terminais = set()
 
-
     def parse(self, tokens):
         """
-        Analisa a lista de tokens usando o algoritmo do autômato com pilha.
-        Retorna uma lista de erros sintáticos. Se a lista estiver vazia, a análise foi bem-sucedida.
+        Analisa a lista de tokens com uma estratégia de recuperação de erros robusta 
+        que previne loops infinitos.
         """
-        # Cria uma cópia para não modificar a lista original de tokens
         entrada = list(tokens)
-        
-        # 1. Preparar a entrada
-        # Adiciona o marcador de fim de arquivo '$'
         last_line = entrada[-1][2] if entrada else 1
         entrada.append(('$', '$', last_line))
 
-        # 2. Inicializar a pilha
         pilha = [('$', None), ('Program', None)]
-        
         erros_sintaticos = []
         
-        # 3. Loop principal do algoritmo
-        while len(pilha) > 0:
+        # O loop principal continua enquanto a pilha não estiver vazia.
+        # A condição de sucesso é a pilha conter apenas '$' e a entrada também ser '$'.
+        while pilha:
             topo_pilha_tipo, _ = pilha[-1]
             token_atual_tipo, token_atual_valor, token_atual_linha = entrada[0]
-            
-            # Caso 1:   Topo da pilha é um terminal
-            if topo_pilha_tipo not in self.nao_terminais and topo_pilha_tipo != 'ε':
+
+            # Condição de Sucesso
+            if topo_pilha_tipo == '$':
+                if token_atual_tipo == '$':
+                    # Fim da análise bem-sucedida
+                    return erros_sintaticos
+                else:
+                    # Erro: Pilha vazia, mas ainda há tokens na entrada
+                    erro_msg = f"Erro Sintático na linha {token_atual_linha}: Código continua após o fim esperado do programa."
+                    if not erros_sintaticos or erros_sintaticos[-1] != erro_msg:
+                        erros_sintaticos.append(erro_msg)
+                    return erros_sintaticos
+
+            # Caso 1: Topo da pilha é um terminal
+            if topo_pilha_tipo not in self.nao_terminais:
                 if topo_pilha_tipo == token_atual_tipo:
+                    # Match! Avança na pilha e na entrada.
                     pilha.pop()
                     entrada.pop(0)
                 else:
-                    erro = (f"Erro Sintático na linha {token_atual_linha}: "
-                            f"Esperado '{topo_pilha_tipo}', mas encontrou '{token_atual_tipo}'.")
-                    erros_sintaticos.append(erro)
-                    return erros_sintaticos # Modo pânico: para no primeiro erro
+                    # ERRO de terminal não correspondente.
+                    erro_msg = f"Erro Sintático na linha {token_atual_linha}: Esperado '{topo_pilha_tipo}', mas encontrou '{token_atual_tipo}'."
+                    if not erros_sintaticos or erros_sintaticos[-1] != erro_msg:
+                        erros_sintaticos.append(erro_msg)
+                    
+                    # CORREÇÃO DO LOOP: Descarta o que era esperado da pilha para tentar continuar.
+                    pilha.pop()
             
             # Caso 2: Topo da pilha é um não-terminal
-            elif topo_pilha_tipo in self.nao_terminais:
+            else:
                 try:
                     producao = self.tabela[topo_pilha_tipo][token_atual_tipo]
                     pilha.pop()
-                    
                     if producao[0] != 'ε':
                         for simbolo in reversed(producao):
                             pilha.append((simbolo, token_atual_linha))
                 except KeyError:
-                    erro = (f"Erro Sintático na linha {token_atual_linha}: "
-                            f"Token inesperado '{token_atual_tipo}'.")
-                    erros_sintaticos.append(erro)
-                    return erros_sintaticos
-            
-            # Caso 3: Sucesso
-            if topo_pilha_tipo == '$' and token_atual_tipo == '$':
-                return [] # Retorna lista de erros vazia
+                    # ERRO de não-terminal (transição não existe).
+                    erro_msg = f"Erro Sintático na linha {token_atual_linha}: Token inesperado '{token_atual_tipo}'."
+                    if not erros_sintaticos or erros_sintaticos[-1] != erro_msg:
+                        erros_sintaticos.append(erro_msg)
 
-        return erros_sintaticos
-
-
+                    # CORREÇÃO DO LOOP: Descarta o token da entrada que causou o erro para garantir progresso.
+                    entrada.pop(0)
+                    if not entrada: # Segurança caso o erro seja no último token antes do '$'
+                        return erros_sintaticos
+                    
 # =============================================================================
 # 3. SETUP DO ANALISADOR E DA GUI
 # =============================================================================
