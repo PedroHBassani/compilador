@@ -70,60 +70,9 @@ PrimaryRest → LPAREN ArgList RPAREN | ε
 ArgList → Expr ArgListRest | ε  
 ArgListRest → COMMA Expr ArgListRest | ε
 
-## Conjuntos First
-
-| Não-Terminal      | Conjunto First                                                                                             |
-|-------------------|------------------------------------------------------------------------------------------------------------|
-| Program           | { INT, FLOAT, VOID, ε }                                                                                    |
-| DeclList          | { INT, FLOAT, VOID, ε }                                                                                    |
-| Decl              | { INT, FLOAT, VOID }                                                                                       |
-| DeclRest          | { LPAREN, ASSIGN, SEMICOLON }                                                                              |
-| ParamList         | { INT, FLOAT, VOID, ε }                                                                                    |
-| ParamListRest     | { COMMA, ε }                                                                                               |
-| Param             | { INT, FLOAT, VOID }                                                                                       |
-| Type              | { INT, FLOAT, VOID }                                                                                       |
-| Block             | { LBRACE }                                                                                                 |
-| StmtList          | { `First(Stmt)`, ε }                                                                                       |
-| Stmt              | { `First(Expr)`, SEMICOLON, IF, WHILE, RETURN, LBRACE }                                                    |
-| ExprStmt          | { `First(Expr)`, SEMICOLON }                                                                               |
-| IfStmt            | { IF }                                                                                                     |
-| ElsePart          | { ELSE, ε }                                                                                                |
-| WhileStmt         | { WHILE }                                                                                                  |
-| ReturnStmt        | { RETURN }                                                                                                 |
-| ReturnStmtRest    | { `First(Expr)`, SEMICOLON }                                                                               |
-| Expr              | { `First(Primary)`, NOT, PLUS, MINUS }                                                                     |
-| Assignment        | { `First(Expr)` }                                                                                          |
-| AssignmentRest    | { ASSIGN, ε }                                                                                              |
-| ... (demais expressões) | { `First(Primary)`, NOT, PLUS, MINUS }                                                                     |
-| Primary           | { IDENTIFIER, LPAREN, INTEGER_LITERAL, FLOAT_LITERAL }                                                     |
-
-## Conjuntos Follow
-
-| Não-Terminal      | Conjunto Follow                                                                                            |
-|-------------------|------------------------------------------------------------------------------------------------------------|
-| Program           | { $ }                                                                                                      |
-| DeclList          | { $ }                                                                                                      |
-| Decl              | { INT, FLOAT, VOID, $ }                                                                                    |
-| StmtList          | { RBRACE }                                                                                                 |
-| Stmt              | { `First(Stmt)`, RBRACE, ELSE }                                                                            |
-| ElsePart          | { `Follow(Stmt)` }                                                                                         |
-| Expr              | { SEMICOLON, RPAREN, COMMA }                                                                               |
-| Assignment        | { `Follow(Expr)` }                                                                                         |
-| AssignmentRest    | { `Follow(Assignment)` }                                                                                   |
-| LogicOr           | { ASSIGN, `Follow(Assignment)` }                                                                           |
-| LogicAnd          | { OR, `Follow(LogicOr)` }                                                                                  |
-| Equality          | { AND, `Follow(LogicAnd)` }                                                                                |
-| Relational        | { EQUALS, NOT_EQUALS, `Follow(Equality)` }                                                                 |
-| Additive          | { LESS_THAN, LESS_THAN_EQ, GREATER_THAN, GREATER_THAN_EQ, `Follow(Relational)` }                           |
-| Multiplicative    | { PLUS, MINUS, `Follow(Additive)` }                                                                        |
-| Unary             | { MULTIPLY, DIVIDE, `Follow(Multiplicative)` }                                                             |
-| Primary           | { `Follow(Unary)` }                                                                                        |
-
-*Nota: A Tabela de Análise Sintática (Parsing Table) foi omitida deste documento por ser muito extensa, mas está implementada diretamente no código do analisador sintático (`sintatico/parsing_data.py`).*
-
 ## Exemplo de Código para Validação
 
-```c
+```
 int main() {
     int numeroInteiro = 5;
     float numeroFlutuante = 3.14;
@@ -137,7 +86,5 @@ int main() {
         numeroFlutuante = numeroFlutuante - 0.5;
     }
     return 0;
-}
-```
 }
 ```
