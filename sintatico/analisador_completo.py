@@ -286,17 +286,26 @@ line_numbers.config(yscrollcommand=code_input.vbar.set)
 for event_name in ['<KeyRelease>', '<MouseWheel>', '<<Paste>>', '<<Cut>>', '<Configure>']:
     code_input.bind(event_name, on_content_changed)
     
-# Código de exemplo
-default_code = """int main() {
+# Exemplos de código para testar o analisador
+default_code = """// Exemplo 1: Função principal simples (erro sintático - operador errado)
+int main() {
     int a = 10;
-    if (a > 5) {
+    if (a => 5) {
         a = a + 1;
     }
     return 0;
 }
 
-// Teste de erro sintático
+// Exemplo 2: Declaração de variável float e erro sintático (falta ponto e vírgula)
 float b = 20.5
+
+// Exemplo 3: Função com parâmetro (erro sintático - ponto e vírgula no lugar de vírgula)
+int soma(int x; int y) {
+    return x + y;
+}
+
+// Exemplo 4: Erro léxico (caractere inválido)
+int c = 5 @ 2;
 """
 code_input.insert('1.0', default_code)
 on_content_changed()
