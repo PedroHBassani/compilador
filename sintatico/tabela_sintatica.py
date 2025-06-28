@@ -1,10 +1,9 @@
 from collections import defaultdict
-import json # 1. Importa a biblioteca JSON
+import json
 
-# --- Gramática da linguagem CompCCUno ---
 grammar = {
     "Program": [["DeclList"]],
-    "DeclList": [["Decl", "DeclList"], ["ε"]], # Adicionado 'ε' para DeclList permitir programas vazios
+    "DeclList": [["Decl", "DeclList"], ["ε"]],
     "Decl": [["Type", "IDENTIFIER", "DeclRest"]],
     "DeclRest": [["LPAREN", "ParamList", "RPAREN", "Block"],
                  ["ASSIGN", "Expr", "SEMICOLON"],
@@ -91,6 +90,7 @@ while changed:
                     first[head].add('ε')
                     changed = True
 
+
 # --- Cálculo do FOLLOW ---
 start_symbol = "Program"
 follow[start_symbol].add("$")
@@ -168,7 +168,7 @@ print(f"\n✅ Tabela LL(1) foi exportada com sucesso para o arquivo: '{output_fi
 # --- FIM DA SEÇÃO DE EXPORTAÇÃO ---
 
 
-# Mostrar resultado no console (opcional, mantido do código original)
+# Mostrar resultado no console
 print("\n--- Tabela LL(1) no Console ---")
 for nt in sorted(ll1_table):
     print(f"\n{nt}:")

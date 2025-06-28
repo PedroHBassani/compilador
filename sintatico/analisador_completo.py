@@ -90,10 +90,10 @@ def analyze_lexical(code):
     return tokens_found, symbol_table, errors
 
 # =============================================================================
-# 2. ANALISADOR SINTÁTICO (VERSÃO FINAL CORRIGIDA - SEM LOOP INFINITO)
+# 2. ANALISADOR SINTÁTICO
 # =============================================================================
 
-class AnalisadorSintatico:
+class AnalisadorSintatico:  
     def __init__(self, tabela_parsing):
         self.tabela = tabela_parsing
         if tabela_parsing:
@@ -103,8 +103,7 @@ class AnalisadorSintatico:
 
     def parse(self, tokens):
         """
-        Analisa a lista de tokens com uma estratégia de recuperação de erros robusta 
-        que previne loops infinitos.
+        Analisa a lista de tokens com uma estratégia de recuperação de erros
         """
         entrada = list(tokens)
         last_line = entrada[-1][2] if entrada else 1

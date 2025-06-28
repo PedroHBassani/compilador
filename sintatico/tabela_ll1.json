@@ -1,0 +1,959 @@
+{
+    "Program": {
+        "VOID": [
+            "DeclList"
+        ],
+        "INT": [
+            "DeclList"
+        ],
+        "FLOAT": [
+            "DeclList"
+        ],
+        "$": [
+            "DeclList"
+        ]
+    },
+    "DeclList": {
+        "VOID": [
+            "Decl",
+            "DeclList"
+        ],
+        "INT": [
+            "Decl",
+            "DeclList"
+        ],
+        "FLOAT": [
+            "Decl",
+            "DeclList"
+        ],
+        "$": [
+            "ε"
+        ]
+    },
+    "Decl": {
+        "VOID": [
+            "Type",
+            "IDENTIFIER",
+            "DeclRest"
+        ],
+        "INT": [
+            "Type",
+            "IDENTIFIER",
+            "DeclRest"
+        ],
+        "FLOAT": [
+            "Type",
+            "IDENTIFIER",
+            "DeclRest"
+        ]
+    },
+    "DeclRest": {
+        "LPAREN": [
+            "LPAREN",
+            "ParamList",
+            "RPAREN",
+            "Block"
+        ],
+        "ASSIGN": [
+            "ASSIGN",
+            "Expr",
+            "SEMICOLON"
+        ],
+        "SEMICOLON": [
+            "SEMICOLON"
+        ]
+    },
+    "ParamList": {
+        "VOID": [
+            "Param",
+            "ParamListRest"
+        ],
+        "INT": [
+            "Param",
+            "ParamListRest"
+        ],
+        "FLOAT": [
+            "Param",
+            "ParamListRest"
+        ],
+        "RPAREN": [
+            "ε"
+        ]
+    },
+    "ParamListRest": {
+        "COMMA": [
+            "COMMA",
+            "Param",
+            "ParamListRest"
+        ],
+        "RPAREN": [
+            "ε"
+        ]
+    },
+    "Param": {
+        "VOID": [
+            "Type",
+            "IDENTIFIER"
+        ],
+        "INT": [
+            "Type",
+            "IDENTIFIER"
+        ],
+        "FLOAT": [
+            "Type",
+            "IDENTIFIER"
+        ]
+    },
+    "Type": {
+        "INT": [
+            "INT"
+        ],
+        "FLOAT": [
+            "FLOAT"
+        ],
+        "VOID": [
+            "VOID"
+        ]
+    },
+    "Block": {
+        "LBRACE": [
+            "LBRACE",
+            "StmtList",
+            "RBRACE"
+        ]
+    },
+    "StmtList": {
+        "LBRACE": [
+            "Stmt",
+            "StmtList"
+        ],
+        "FLOAT_LITERAL": [
+            "Stmt",
+            "StmtList"
+        ],
+        "SEMICOLON": [
+            "Stmt",
+            "StmtList"
+        ],
+        "INTEGER_LITERAL": [
+            "Stmt",
+            "StmtList"
+        ],
+        "IDENTIFIER": [
+            "Stmt",
+            "StmtList"
+        ],
+        "LPAREN": [
+            "Stmt",
+            "StmtList"
+        ],
+        "NOT": [
+            "Stmt",
+            "StmtList"
+        ],
+        "PLUS": [
+            "Stmt",
+            "StmtList"
+        ],
+        "WHILE": [
+            "Stmt",
+            "StmtList"
+        ],
+        "RETURN": [
+            "Stmt",
+            "StmtList"
+        ],
+        "MINUS": [
+            "Stmt",
+            "StmtList"
+        ],
+        "IF": [
+            "Stmt",
+            "StmtList"
+        ],
+        "RBRACE": [
+            "ε"
+        ]
+    },
+    "Stmt": {
+        "FLOAT_LITERAL": [
+            "ExprStmt"
+        ],
+        "SEMICOLON": [
+            "ExprStmt"
+        ],
+        "INTEGER_LITERAL": [
+            "ExprStmt"
+        ],
+        "IDENTIFIER": [
+            "ExprStmt"
+        ],
+        "LPAREN": [
+            "ExprStmt"
+        ],
+        "NOT": [
+            "ExprStmt"
+        ],
+        "PLUS": [
+            "ExprStmt"
+        ],
+        "MINUS": [
+            "ExprStmt"
+        ],
+        "IF": [
+            "IfStmt"
+        ],
+        "WHILE": [
+            "WhileStmt"
+        ],
+        "RETURN": [
+            "ReturnStmt"
+        ],
+        "LBRACE": [
+            "Block"
+        ]
+    },
+    "ExprStmt": {
+        "FLOAT_LITERAL": [
+            "Expr",
+            "SEMICOLON"
+        ],
+        "INTEGER_LITERAL": [
+            "Expr",
+            "SEMICOLON"
+        ],
+        "IDENTIFIER": [
+            "Expr",
+            "SEMICOLON"
+        ],
+        "LPAREN": [
+            "Expr",
+            "SEMICOLON"
+        ],
+        "NOT": [
+            "Expr",
+            "SEMICOLON"
+        ],
+        "PLUS": [
+            "Expr",
+            "SEMICOLON"
+        ],
+        "MINUS": [
+            "Expr",
+            "SEMICOLON"
+        ],
+        "SEMICOLON": [
+            "SEMICOLON"
+        ]
+    },
+    "IfStmt": {
+        "IF": [
+            "IF",
+            "LPAREN",
+            "Expr",
+            "RPAREN",
+            "Stmt",
+            "ElsePart"
+        ]
+    },
+    "ElsePart": {
+        "ELSE": [
+            "ε"
+        ],
+        "LBRACE": [
+            "ε"
+        ],
+        "FLOAT_LITERAL": [
+            "ε"
+        ],
+        "INTEGER_LITERAL": [
+            "ε"
+        ],
+        "NOT": [
+            "ε"
+        ],
+        "IF": [
+            "ε"
+        ],
+        "SEMICOLON": [
+            "ε"
+        ],
+        "RBRACE": [
+            "ε"
+        ],
+        "IDENTIFIER": [
+            "ε"
+        ],
+        "LPAREN": [
+            "ε"
+        ],
+        "PLUS": [
+            "ε"
+        ],
+        "WHILE": [
+            "ε"
+        ],
+        "RETURN": [
+            "ε"
+        ],
+        "MINUS": [
+            "ε"
+        ]
+    },
+    "WhileStmt": {
+        "WHILE": [
+            "WHILE",
+            "LPAREN",
+            "Expr",
+            "RPAREN",
+            "Stmt"
+        ]
+    },
+    "ReturnStmt": {
+        "RETURN": [
+            "RETURN",
+            "ReturnStmtRest"
+        ]
+    },
+    "ReturnStmtRest": {
+        "FLOAT_LITERAL": [
+            "Expr",
+            "SEMICOLON"
+        ],
+        "INTEGER_LITERAL": [
+            "Expr",
+            "SEMICOLON"
+        ],
+        "IDENTIFIER": [
+            "Expr",
+            "SEMICOLON"
+        ],
+        "LPAREN": [
+            "Expr",
+            "SEMICOLON"
+        ],
+        "NOT": [
+            "Expr",
+            "SEMICOLON"
+        ],
+        "PLUS": [
+            "Expr",
+            "SEMICOLON"
+        ],
+        "MINUS": [
+            "Expr",
+            "SEMICOLON"
+        ],
+        "SEMICOLON": [
+            "SEMICOLON"
+        ]
+    },
+    "Expr": {
+        "FLOAT_LITERAL": [
+            "Assignment"
+        ],
+        "INTEGER_LITERAL": [
+            "Assignment"
+        ],
+        "IDENTIFIER": [
+            "Assignment"
+        ],
+        "LPAREN": [
+            "Assignment"
+        ],
+        "NOT": [
+            "Assignment"
+        ],
+        "PLUS": [
+            "Assignment"
+        ],
+        "MINUS": [
+            "Assignment"
+        ]
+    },
+    "Assignment": {
+        "FLOAT_LITERAL": [
+            "LogicOr",
+            "AssignmentRest"
+        ],
+        "INTEGER_LITERAL": [
+            "LogicOr",
+            "AssignmentRest"
+        ],
+        "IDENTIFIER": [
+            "LogicOr",
+            "AssignmentRest"
+        ],
+        "LPAREN": [
+            "LogicOr",
+            "AssignmentRest"
+        ],
+        "NOT": [
+            "LogicOr",
+            "AssignmentRest"
+        ],
+        "PLUS": [
+            "LogicOr",
+            "AssignmentRest"
+        ],
+        "MINUS": [
+            "LogicOr",
+            "AssignmentRest"
+        ]
+    },
+    "AssignmentRest": {
+        "ASSIGN": [
+            "ASSIGN",
+            "Assignment"
+        ],
+        "COMMA": [
+            "ε"
+        ],
+        "SEMICOLON": [
+            "ε"
+        ],
+        "RPAREN": [
+            "ε"
+        ]
+    },
+    "LogicOr": {
+        "FLOAT_LITERAL": [
+            "LogicAnd",
+            "LogicOrRest"
+        ],
+        "INTEGER_LITERAL": [
+            "LogicAnd",
+            "LogicOrRest"
+        ],
+        "IDENTIFIER": [
+            "LogicAnd",
+            "LogicOrRest"
+        ],
+        "LPAREN": [
+            "LogicAnd",
+            "LogicOrRest"
+        ],
+        "NOT": [
+            "LogicAnd",
+            "LogicOrRest"
+        ],
+        "PLUS": [
+            "LogicAnd",
+            "LogicOrRest"
+        ],
+        "MINUS": [
+            "LogicAnd",
+            "LogicOrRest"
+        ]
+    },
+    "LogicOrRest": {
+        "OR": [
+            "OR",
+            "LogicAnd",
+            "LogicOrRest"
+        ],
+        "COMMA": [
+            "ε"
+        ],
+        "SEMICOLON": [
+            "ε"
+        ],
+        "ASSIGN": [
+            "ε"
+        ],
+        "RPAREN": [
+            "ε"
+        ]
+    },
+    "LogicAnd": {
+        "FLOAT_LITERAL": [
+            "Equality",
+            "LogicAndRest"
+        ],
+        "INTEGER_LITERAL": [
+            "Equality",
+            "LogicAndRest"
+        ],
+        "IDENTIFIER": [
+            "Equality",
+            "LogicAndRest"
+        ],
+        "LPAREN": [
+            "Equality",
+            "LogicAndRest"
+        ],
+        "NOT": [
+            "Equality",
+            "LogicAndRest"
+        ],
+        "PLUS": [
+            "Equality",
+            "LogicAndRest"
+        ],
+        "MINUS": [
+            "Equality",
+            "LogicAndRest"
+        ]
+    },
+    "LogicAndRest": {
+        "AND": [
+            "AND",
+            "Equality",
+            "LogicAndRest"
+        ],
+        "COMMA": [
+            "ε"
+        ],
+        "SEMICOLON": [
+            "ε"
+        ],
+        "OR": [
+            "ε"
+        ],
+        "ASSIGN": [
+            "ε"
+        ],
+        "RPAREN": [
+            "ε"
+        ]
+    },
+    "Equality": {
+        "FLOAT_LITERAL": [
+            "Relational",
+            "EqualityRest"
+        ],
+        "INTEGER_LITERAL": [
+            "Relational",
+            "EqualityRest"
+        ],
+        "IDENTIFIER": [
+            "Relational",
+            "EqualityRest"
+        ],
+        "LPAREN": [
+            "Relational",
+            "EqualityRest"
+        ],
+        "NOT": [
+            "Relational",
+            "EqualityRest"
+        ],
+        "PLUS": [
+            "Relational",
+            "EqualityRest"
+        ],
+        "MINUS": [
+            "Relational",
+            "EqualityRest"
+        ]
+    },
+    "EqualityRest": {
+        "EQUALS": [
+            "EQUALS",
+            "Relational",
+            "EqualityRest"
+        ],
+        "NOT_EQUALS": [
+            "NOT_EQUALS",
+            "Relational",
+            "EqualityRest"
+        ],
+        "COMMA": [
+            "ε"
+        ],
+        "SEMICOLON": [
+            "ε"
+        ],
+        "RPAREN": [
+            "ε"
+        ],
+        "OR": [
+            "ε"
+        ],
+        "ASSIGN": [
+            "ε"
+        ],
+        "AND": [
+            "ε"
+        ]
+    },
+    "Relational": {
+        "FLOAT_LITERAL": [
+            "Additive",
+            "RelationalRest"
+        ],
+        "INTEGER_LITERAL": [
+            "Additive",
+            "RelationalRest"
+        ],
+        "IDENTIFIER": [
+            "Additive",
+            "RelationalRest"
+        ],
+        "LPAREN": [
+            "Additive",
+            "RelationalRest"
+        ],
+        "NOT": [
+            "Additive",
+            "RelationalRest"
+        ],
+        "PLUS": [
+            "Additive",
+            "RelationalRest"
+        ],
+        "MINUS": [
+            "Additive",
+            "RelationalRest"
+        ]
+    },
+    "RelationalRest": {
+        "LESS_THAN": [
+            "LESS_THAN",
+            "Additive",
+            "RelationalRest"
+        ],
+        "LESS_THAN_EQ": [
+            "LESS_THAN_EQ",
+            "Additive",
+            "RelationalRest"
+        ],
+        "GREATER_THAN": [
+            "GREATER_THAN",
+            "Additive",
+            "RelationalRest"
+        ],
+        "GREATER_THAN_EQ": [
+            "GREATER_THAN_EQ",
+            "Additive",
+            "RelationalRest"
+        ],
+        "COMMA": [
+            "ε"
+        ],
+        "SEMICOLON": [
+            "ε"
+        ],
+        "RPAREN": [
+            "ε"
+        ],
+        "NOT_EQUALS": [
+            "ε"
+        ],
+        "OR": [
+            "ε"
+        ],
+        "ASSIGN": [
+            "ε"
+        ],
+        "EQUALS": [
+            "ε"
+        ],
+        "AND": [
+            "ε"
+        ]
+    },
+    "Additive": {
+        "FLOAT_LITERAL": [
+            "Multiplicative",
+            "AdditiveRest"
+        ],
+        "INTEGER_LITERAL": [
+            "Multiplicative",
+            "AdditiveRest"
+        ],
+        "IDENTIFIER": [
+            "Multiplicative",
+            "AdditiveRest"
+        ],
+        "LPAREN": [
+            "Multiplicative",
+            "AdditiveRest"
+        ],
+        "NOT": [
+            "Multiplicative",
+            "AdditiveRest"
+        ],
+        "PLUS": [
+            "Multiplicative",
+            "AdditiveRest"
+        ],
+        "MINUS": [
+            "Multiplicative",
+            "AdditiveRest"
+        ]
+    },
+    "AdditiveRest": {
+        "PLUS": [
+            "PLUS",
+            "Multiplicative",
+            "AdditiveRest"
+        ],
+        "MINUS": [
+            "MINUS",
+            "Multiplicative",
+            "AdditiveRest"
+        ],
+        "COMMA": [
+            "ε"
+        ],
+        "LESS_THAN_EQ": [
+            "ε"
+        ],
+        "NOT_EQUALS": [
+            "ε"
+        ],
+        "RPAREN": [
+            "ε"
+        ],
+        "LESS_THAN": [
+            "ε"
+        ],
+        "ASSIGN": [
+            "ε"
+        ],
+        "EQUALS": [
+            "ε"
+        ],
+        "AND": [
+            "ε"
+        ],
+        "SEMICOLON": [
+            "ε"
+        ],
+        "GREATER_THAN_EQ": [
+            "ε"
+        ],
+        "GREATER_THAN": [
+            "ε"
+        ],
+        "OR": [
+            "ε"
+        ]
+    },
+    "Multiplicative": {
+        "FLOAT_LITERAL": [
+            "Unary",
+            "MultiplicativeRest"
+        ],
+        "INTEGER_LITERAL": [
+            "Unary",
+            "MultiplicativeRest"
+        ],
+        "IDENTIFIER": [
+            "Unary",
+            "MultiplicativeRest"
+        ],
+        "LPAREN": [
+            "Unary",
+            "MultiplicativeRest"
+        ],
+        "NOT": [
+            "Unary",
+            "MultiplicativeRest"
+        ],
+        "PLUS": [
+            "Unary",
+            "MultiplicativeRest"
+        ],
+        "MINUS": [
+            "Unary",
+            "MultiplicativeRest"
+        ]
+    },
+    "MultiplicativeRest": {
+        "MULTIPLY": [
+            "MULTIPLY",
+            "Unary",
+            "MultiplicativeRest"
+        ],
+        "DIVIDE": [
+            "DIVIDE",
+            "Unary",
+            "MultiplicativeRest"
+        ],
+        "COMMA": [
+            "ε"
+        ],
+        "LESS_THAN_EQ": [
+            "ε"
+        ],
+        "NOT_EQUALS": [
+            "ε"
+        ],
+        "RPAREN": [
+            "ε"
+        ],
+        "LESS_THAN": [
+            "ε"
+        ],
+        "ASSIGN": [
+            "ε"
+        ],
+        "EQUALS": [
+            "ε"
+        ],
+        "AND": [
+            "ε"
+        ],
+        "SEMICOLON": [
+            "ε"
+        ],
+        "GREATER_THAN_EQ": [
+            "ε"
+        ],
+        "GREATER_THAN": [
+            "ε"
+        ],
+        "OR": [
+            "ε"
+        ],
+        "PLUS": [
+            "ε"
+        ],
+        "MINUS": [
+            "ε"
+        ]
+    },
+    "Unary": {
+        "NOT": [
+            "NOT",
+            "Unary"
+        ],
+        "PLUS": [
+            "PLUS",
+            "Unary"
+        ],
+        "MINUS": [
+            "MINUS",
+            "Unary"
+        ],
+        "IDENTIFIER": [
+            "Primary"
+        ],
+        "FLOAT_LITERAL": [
+            "Primary"
+        ],
+        "LPAREN": [
+            "Primary"
+        ],
+        "INTEGER_LITERAL": [
+            "Primary"
+        ]
+    },
+    "Primary": {
+        "IDENTIFIER": [
+            "IDENTIFIER",
+            "PrimaryRest"
+        ],
+        "LPAREN": [
+            "LPAREN",
+            "Expr",
+            "RPAREN"
+        ],
+        "INTEGER_LITERAL": [
+            "INTEGER_LITERAL"
+        ],
+        "FLOAT_LITERAL": [
+            "FLOAT_LITERAL"
+        ]
+    },
+    "PrimaryRest": {
+        "LPAREN": [
+            "LPAREN",
+            "ArgList",
+            "RPAREN"
+        ],
+        "COMMA": [
+            "ε"
+        ],
+        "LESS_THAN_EQ": [
+            "ε"
+        ],
+        "MULTIPLY": [
+            "ε"
+        ],
+        "NOT_EQUALS": [
+            "ε"
+        ],
+        "RPAREN": [
+            "ε"
+        ],
+        "LESS_THAN": [
+            "ε"
+        ],
+        "ASSIGN": [
+            "ε"
+        ],
+        "EQUALS": [
+            "ε"
+        ],
+        "AND": [
+            "ε"
+        ],
+        "DIVIDE": [
+            "ε"
+        ],
+        "SEMICOLON": [
+            "ε"
+        ],
+        "GREATER_THAN_EQ": [
+            "ε"
+        ],
+        "GREATER_THAN": [
+            "ε"
+        ],
+        "OR": [
+            "ε"
+        ],
+        "PLUS": [
+            "ε"
+        ],
+        "MINUS": [
+            "ε"
+        ]
+    },
+    "ArgList": {
+        "FLOAT_LITERAL": [
+            "Expr",
+            "ArgListRest"
+        ],
+        "INTEGER_LITERAL": [
+            "Expr",
+            "ArgListRest"
+        ],
+        "IDENTIFIER": [
+            "Expr",
+            "ArgListRest"
+        ],
+        "LPAREN": [
+            "Expr",
+            "ArgListRest"
+        ],
+        "NOT": [
+            "Expr",
+            "ArgListRest"
+        ],
+        "PLUS": [
+            "Expr",
+            "ArgListRest"
+        ],
+        "MINUS": [
+            "Expr",
+            "ArgListRest"
+        ],
+        "RPAREN": [
+            "ε"
+        ]
+    },
+    "ArgListRest": {
+        "COMMA": [
+            "COMMA",
+            "Expr",
+            "ArgListRest"
+        ],
+        "RPAREN": [
+            "ε"
+        ]
+    }
+}
